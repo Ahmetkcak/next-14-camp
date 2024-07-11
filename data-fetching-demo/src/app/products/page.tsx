@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+// export const fetchCache = "default-cache";
 
 type Product = {
     id:number,
@@ -7,6 +9,16 @@ type Product = {
 }
 
 export default async function ProductPage() {
+    const detailsResponse = await fetch("http://localhost:3001/products/1");
+    const details = await detailsResponse.json();
+
+    const cookieStore = cookies();
+    cookieStore.get("theme");
+    //Once you specify the no-store option for a fetch request, subsequent fetch requests will also not be cached
+    // const response = await fetch("http://localhost:3001/products",{
+    //     cache:"no-store"
+    // });
+
     const response = await fetch("http://localhost:3001/products");
     const products = await response.json();
     return (
@@ -19,6 +31,7 @@ export default async function ProductPage() {
               <h2 className="text-xl font-semibold">{product.title}</h2>
               <p>{product.description}</p>
               <p className="text-lg font-medium">${product.price}</p>
+              <p>{details.price}</p>
             </li>
           ))}
         </ul>
