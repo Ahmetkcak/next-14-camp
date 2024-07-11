@@ -9,7 +9,11 @@ type Product = {
 }
 
 export default async function ProductPage() {
-    const detailsResponse = await fetch("http://localhost:3001/products/1");
+    const detailsResponse = await fetch("http://localhost:3001/products",{
+      next:{
+        revalidate:10
+      }
+    });
     const details = await detailsResponse.json();
 
     const cookieStore = cookies();
