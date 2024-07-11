@@ -9,8 +9,8 @@ type User = {
 export default async function UsersPage() {
     await new Promise(resolve => setTimeout(resolve,2000))
     const response = await fetch("https://jsonplaceholder.typicode.com/users");
-    //ERROR
-    //const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    //Error
+    //const response = await fetch("https://jsonplaceholder.typicode.com/users123");
     const users = await response.json();
     return (
         <div className="grid grid-cols-2 gap-2 p-4">
