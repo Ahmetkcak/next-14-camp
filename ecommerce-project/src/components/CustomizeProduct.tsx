@@ -2,6 +2,7 @@
 
 import { products } from "@wix/stores";
 import { useEffect, useState } from "react";
+import Add from "./Add";
 
 const CustomizeProducts = ({
   productId,
@@ -32,20 +33,18 @@ const CustomizeProducts = ({
     setSelectedOptions((prev) => ({ ...prev, [optionType]: choice }));
   };
 
-  console.log(selectedOptions);
-  
-
   const isVariantInStock = (choices: { [key: string]: string }) => {
     return variants.some((variant) => {
       const variantChoices = variant.choices;
-      debugger;
       if (!variantChoices) return false;
 
       return (
         Object.entries(choices).every(
           ([key, value]) => variantChoices[key] === value
         ) &&
-        variant.stock?.inStock
+        variant.stock?.inStock &&
+        variant.stock?.quantity &&
+        variant.stock?.quantity > 0
       );
     });
   };
@@ -110,6 +109,13 @@ const CustomizeProducts = ({
           </ul>
         </div>
       ))}
+      <Add
+        productId={productId}
+        variantId={
+          selectedVariant?._id || "00000000-0000-0000-0000-000000000000"
+        }
+        stockNumber={selectedVariant?.stock?.quantity || 0}
+      />
     </div>
   );
 };
