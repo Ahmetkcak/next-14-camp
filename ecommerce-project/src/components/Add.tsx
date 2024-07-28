@@ -1,5 +1,6 @@
 "use client"
 
+import { useWixClient } from "@/hooks/useWixClient"
 import { useState } from "react"
 
 const Add = ({ productId, variantId, stockNumber }: { productId: string, variantId: string, stockNumber: number }) => {
@@ -17,6 +18,23 @@ const Add = ({ productId, variantId, stockNumber }: { productId: string, variant
         }
     }
 
+    const wixClient = useWixClient();
+
+    const addItem = async () => {
+        const response = wixClient.currentCart.addToCurrentCart({
+            lineItems: [
+                {
+                    catalogReference: {
+                        appId: process.env.NEXT_PUBLIC_WIX_APP!,
+                        catalogItemId: productId,
+                        ...(variantId && { options: { variantId } })
+                    },
+                    quantity: stockNumber
+                }
+            ]
+        })
+    }
+
     return (
         <div className="flex flex-col gap-4">
             <h4 className="font-medium">Choose a Quantity</h4>
@@ -30,9 +48,9 @@ const Add = ({ productId, variantId, stockNumber }: { productId: string, variant
                     {stockNumber < 1 ?
                         (<div className="text-xs">Product is out of stock</div>) : (<div className="text-xs">Only <span className="text-orange-500">{stockNumber} items</span> left! <br /> {"Don't"} miss it</div>)}
                 </div>
-                <button className="w-36 rounded-xl ring-1 ring-specialPink text-specialPink py-2 px-4 text-sm hover:bg-specialPink hover:text-white disabled:cursor-not-allowed disabled:bg-pink-200 disabled:text-white disabled:ring-none">Add to Cart</button>
-            </div>
+                <button onClick={addItem} className="w-36 rounded-xl ring-1 ring-specialPink text-specialPink py-2 px-4 text-sm hover:bg-specialPink hover:text-white disabled:cursor-not-allowed disabled:bg-pink-200 disabled:text-white disabled:ring-none">Add to Cart</button>
         </div>
+        </div >
     )
 }
 

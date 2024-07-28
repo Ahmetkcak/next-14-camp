@@ -26,7 +26,7 @@ const ProductList = async ({
     .gt("priceData.price", searchParams?.min || 0)
     .lt("priceData.price", searchParams?.max || 999999)
     .limit(limit || PRODUCT_PER_PAGE)
-    .skip(searchParams.page ? parseInt(searchParams.page) * (limit || PRODUCT_PER_PAGE) : 0)
+    .skip(searchParams?.page ? parseInt(searchParams.page) * (limit || PRODUCT_PER_PAGE) : 0)
 
 
   if (searchParams?.sort) {
