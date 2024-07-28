@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-const Add = ({productId,variantId,stockNumber}:{productId:string,variantId:string,stockNumber:number}) => {
+const Add = ({ productId, variantId, stockNumber }: { productId: string, variantId: string, stockNumber: number }) => {
 
     const [quantity, setQuantity] = useState(1)
 
@@ -27,7 +27,8 @@ const Add = ({productId,variantId,stockNumber}:{productId:string,variantId:strin
                         {quantity}
                         <button className="cursor-pointer text-xl" onClick={() => handleQuantity("i")}>+</button>
                     </div>
-                    <div className="text-xs">Only <span className="text-orange-500">{stockNumber} items</span> left! <br /> {"Don't"} miss it</div>
+                    {stockNumber < 1 ?
+                        (<div className="text-xs">Product is out of stock</div>) : (<div className="text-xs">Only <span className="text-orange-500">{stockNumber} items</span> left! <br /> {"Don't"} miss it</div>)}
                 </div>
                 <button className="w-36 rounded-xl ring-1 ring-specialPink text-specialPink py-2 px-4 text-sm hover:bg-specialPink hover:text-white disabled:cursor-not-allowed disabled:bg-pink-200 disabled:text-white disabled:ring-none">Add to Cart</button>
             </div>
